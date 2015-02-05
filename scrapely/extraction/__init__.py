@@ -103,12 +103,13 @@ class InstanceBasedLearningExtractor(object):
             extraction_trees = self.extraction_trees
         
         extracted = []
-        for extraction_tree in extraction_trees:
-            extracted += extraction_tree.extract(extraction_page)
-        correctly_extracted = self.validated[extraction_tree.template.id](extracted)
-        
-        if len(correctly_extracted) > 0:
-            return correctly_extracted, extraction_tree.template
+        if len(extraction_trees) > 0:
+            for extraction_tree in extraction_trees:
+                extracted += extraction_tree.extract(extraction_page)
+            correctly_extracted = self.validated[extraction_tree.template.id](extracted)
+
+            if len(correctly_extracted) > 0:
+                return correctly_extracted, extraction_tree.template
         return None, None
 
     def __str__(self):
